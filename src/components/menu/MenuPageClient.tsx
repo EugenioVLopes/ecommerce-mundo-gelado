@@ -44,7 +44,7 @@ export default function MenuPageClient({
   };
 
   return (
-    <section className="p-2 md:p-0">
+    <section className="container mx-auto px-4 py-8">
       <SearchBar searchTerm={searchTerm} onSearch={handleSearch} />
 
       <Tabs
