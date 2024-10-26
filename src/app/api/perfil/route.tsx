@@ -1,10 +1,7 @@
-import mongoose from "mongoose";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-import { connectToDatabase } from "../../../lib/mongodb";
 import { authOptions } from "../auth/[...nextauth]/auth-options";
 import dbConnect from "@/src/lib/dbConnect";
-import { NextApiRequest, NextApiResponse } from "next";
 import { IUser, User } from "@/src/models/User";
 
 export async function PUT(req: NextRequest) {
@@ -84,22 +81,11 @@ export async function GET(req: NextRequest) {
     // Procura o usuário no banco de dados
     const user = await User.findOne({ email: session.user.email }).lean();
 
-    // Verifica se o usuário foi encontrado
-    if (!user) {
-      return NextResponse.json(
-        { message: "Usuário não encontrado." },
-        { status: 404 }
-      );
-    }
-
-    // Remova a senha antes de enviar a resposta
-    const { password, ...userWithoutPassword } = user;
-
-    return NextResponse.json({ user: userWithoutPassword });
+    // Retorna os dados do usuário
+    return NextResponse.json({ user });
   } catch (error) {
-    console.error("Erro ao buscar o perfil:", error);
     return NextResponse.json(
-      { message: "Erro interno do servidor.", error: (error as Error).message },
+      { message: "Erro interno do servidor." },
       { status: 500 }
     );
   }
