@@ -2,9 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { MenuItem } from '@/src/models/MenuItem';
 import dbConnect from '@/src/lib/dbConnect';
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   await dbConnect();
-  
+
   const { id } = params;  // Captura o ID da URL
   const menuItem = await MenuItem.findById(id);
 
@@ -15,7 +16,8 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
   return NextResponse.json(menuItem);
 }
 
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   await dbConnect();
 
   const { id } = params;  // Captura o ID da URL
@@ -29,7 +31,8 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   return NextResponse.json(updatedMenuItem);
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   await dbConnect();
 
   const { id } = params;  // Captura o ID da URL

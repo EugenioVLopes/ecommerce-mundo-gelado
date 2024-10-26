@@ -2,7 +2,13 @@ import dbConnect from "@/src/lib/dbConnect";
 import Order from "@/src/models/Order";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest, { params: { id } }: { params: { id: string } }) {
+export async function GET(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
+
+  const {
+    id
+  } = params;
+
   try {
     // Conectar ao banco de dados
     await dbConnect();

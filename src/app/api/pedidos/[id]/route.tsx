@@ -5,10 +5,8 @@ import dbConnect from "@/src/lib/dbConnect";
 import Order from "@/src/models/Order";
 import { User } from "@/src/models/User";
 
-export async function PATCH(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function PATCH(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   await dbConnect();
 
   const token = await getToken({ req });
